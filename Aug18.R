@@ -2,7 +2,6 @@ library(dplyr)
 library(ggplot2)
 library(car)
 
-#Now being version controlled with Git
 MainTable3 <- mutate(MainTable1, ORGID13 = ifelse(!is.na(ORGID13_new), ORGID13_new, ORGID13), ORGANIZATION13 = ifelse(!is.na(ORGANIZATION13_new), ORGANIZATION13_new, ORGANIZATION13))
 OrgNameID <- MainTable3 %>% count(ORGANIZATION15, ORGID15)
 
