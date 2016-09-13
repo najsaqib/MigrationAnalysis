@@ -159,7 +159,7 @@ rownames(StateTable[i]) <-
 
 # Trying to create rmarkdown loop for multiple reports
 ## Execute this code from here (the console, not RMarkdown) as it will have access to the global environment
-load("//sfp.idir.bcgov/u152/NAJSAQIB$/R/MigrationAnalysis/Sept7.RData")
+load("C:/RProjects/MigrationAnalysis/Sept7.RData")
 library(rmarkdown)
 library(dplyr)
 library(ggplot2)
