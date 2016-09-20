@@ -1,5 +1,6 @@
 library(shiny)
 library(dplyr)
+library(rmarkdown)
 library(DT) # using the more advanced Datatable package
 
 function(input, output) {
@@ -35,8 +36,7 @@ function(input, output) {
     content = function(file){
       file.copy(
         paste(
-          "C:/RProjects/MigrationAnalysis/report",input$Organization,".html",sep=""), # defining the filename to find on server
-        file)
+          "C:/RProjects/MigrationAnalysis/report",input$Organization,".html",sep=""), file) # filename to find on the server
       }
     )
   
@@ -45,6 +45,19 @@ function(input, output) {
       
       paste(CombinedStates1 %>% filter(ORGID15==input$Organization) %>% 
               select(ORGANIZATION15) %>% distinct()) # creating a defacto header for the table, with the organization name
+      
+    }
+  )
+  
+  output$generateReport <- downloadHandler(# download dynamically generated reports
+    # For PDF output, change this to "xxx.pdf"
+    filename = function(){
+      paste("dynamicReport",input$Organization,".html",sep='') # defining the filename for the file that users will download
+    },
+    content = function(file) {
+      
+      # Knit the document
+      rmarkdown::render("C:/RProjects/MigrationAnalysis/DynamicShinyReportTemplate.Rmd",output_file = file)
       
     }
   )

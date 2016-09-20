@@ -16,14 +16,16 @@ fluidPage(
       selectInput("Organization", "Organization ID", 
                   unique(as.character(CombinedStates1$ORGID15))),
       hr(),
-      helpText("Data from Workforce Engagement Survey 2013 & 2015"),
+      downloadButton('downloadFile','Download Report', class="dlButton"),
+      helpText("Download pre-existing reports"),
       hr(),
-      downloadButton('downloadFile','Download Report', class="dlButton")
+      downloadButton('generateReport','Generate Report',class="dlButton"),
+      helpText("Generate and download reports dynamically")
     ),
     
-    # Generating the main panel
+    # The main panel
     mainPanel(
-      h2(textOutput("orgName")), # Header with the full name of the organization
+      h3(textOutput("orgName")), # Dynamic header with the full name of the organization
       DT::dataTableOutput("EngagementTable")  # The main datatable
     )
     
