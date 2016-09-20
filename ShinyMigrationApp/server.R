@@ -1,20 +1,55 @@
 library(shiny)
-library(DT)
+library(dplyr)
+library(DT) # using the more advanced Datatable package
 
 function(input, output) {
   
-  # Filter data based on selections
-  output$table <- DT::renderDataTable(DT::datatable({
-    data <- CombinedStates
-    if (input$source != "All") {
-      data <- data[data$source == input$source,]
+  output$EngagementTable <- DT::renderDataTable(CombinedStates1 %>% 
+                                             filter(ORGID15==input$Organization),
+                                             colnames = c('Organization ID','Engagement',
+                                                          'Count 2013','Count 2015',
+                                                          'Net Gain/Loss','% Change',
+                                                          'Organization'), # headers
+                                             rownames = FALSE,
+                                             extensions = 'Buttons',
+                                             class = 'cell-border stripe hover', #styling opts.
+                                             options=list(
+                                               dom='Bt ', # only show buttons and table, hence Bt
+                                               buttons = 
+                                                 list('copy', 'print', list(
+                                                   extend = 'collection',
+                                                   buttons = c('csv', 'excel', 'pdf'),
+                                                   text = 'Download Data'
+                                                 )),
+                                               columnDefs = list(
+                                                 list(targets={{0}},visible = FALSE),
+                                                 list(targets={{6}},visible = FALSE)
+                                                 ) # hide first and last columns
+                                             ) 
+  ) 
+  
+  output$downloadFile <- downloadHandler( # creating a download button to download already-existing organization specific reports
+    filename = function(){
+      paste("report",input$Organization,".html",sep='') # defining the filename for the file that users will download
+      },
+    content = function(file){
+      file.copy(
+        paste(
+          "C:/RProjects/MigrationAnalysis/report",input$Organization,".html",sep=""), # defining the filename to find on server
+        file)
+      }
+    )
+  
+  output$orgName <- renderText( # displaying reactive output
+    {
+      
+      paste(CombinedStates1 %>% filter(ORGID15==input$Organization) %>% 
+              select(ORGANIZATION15) %>% distinct()) # creating a defacto header for the table, with the organization name
+      
     }
-    if (input$EngagementScore != "All") {
-      data <- data[data$EngagementScore == input$EngagementScore,]
-   
-    }
-    data
-  }))
+  )
+  
   
 }
+
 

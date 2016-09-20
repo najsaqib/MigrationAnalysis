@@ -1,27 +1,31 @@
-library(shiny)
 library(DT)
+library(shiny)
+library(dplyr)
 
-fluidPage(
-  titlePanel("Engagement Scores"),
+# Use a fluid Bootstrap layout
+fluidPage(    
   
-  # Create a new Row in the UI for selectInputs
-  fluidRow(
-    column(4,
-           selectInput("source",
-                       "source",
-                       c("All",
-                         unique(as.character(CombinedStates$source))))
+  # Give the page a title
+  titlePanel("Engagement State"),
+  
+  # Generate a row with a sidebar
+  sidebarLayout(      
+    
+    # Define the sidebar with one input
+    sidebarPanel(
+      selectInput("Organization", "Organization ID", 
+                  unique(as.character(CombinedStates1$ORGID15))),
+      hr(),
+      helpText("Data from Workforce Engagement Survey 2013 & 2015"),
+      hr(),
+      downloadButton('downloadFile','Download Report', class="dlButton")
     ),
-    column(4,
-           selectInput("EngagementScore",
-                       "EngagementScore",
-                       c("All",
-                         unique(as.character(CombinedStates$EngagementScore))))
+    
+    # Generating the main panel
+    mainPanel(
+      h2(textOutput("orgName")), # Header with the full name of the organization
+      DT::dataTableOutput("EngagementTable")  # The main datatable
     )
-  ),
-  # Create a new row for the table.
-  fluidRow(
-    DT::dataTableOutput("table")
+    
   )
 )
-
