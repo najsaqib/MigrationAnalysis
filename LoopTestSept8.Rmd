@@ -20,7 +20,7 @@ IndexOrgName <- OrgNameID %>% filter(ORGID15 == id) %>% select(ORGANIZATION15)
 
 
 
-Engagement states are calculated using responses from the *BC Pulic Service Work Environment Survey*. The matrix below shows the four different engagement states employees may experience. Each state is determined by plotting commitment scores with overall satisfaction scores (combined job and organization satisfaction) according to the criteria in the matrix. For example, if employees are highly committed (have commitment scores of 60 points or more) but are not satisfied (satisfaction scores lower than 60 points), then they are considered to be unhappily dedicated.
+Engagement states are calculated using responses from the *BC Public Service Work Environment Survey*. The matrix below shows the four different engagement states employees may experience. Each state is determined by plotting commitment scores with overall satisfaction scores (combined job and organization satisfaction) according to the criteria in the matrix. For example, if employees are highly committed (have commitment scores of 60 points or more) but are not satisfied (satisfaction scores lower than 60 points), then they are considered to be unhappily dedicated.
 
 ```{r, echo= FALSE, message= FALSE}
 library(pander)
