@@ -78,6 +78,16 @@ assign(paste(i), long_MT3 %>% filter(ORGID15==i | ORGID13_15format==i) %>%
   saveRDS(get(i), paste0("Data/",i,".rds"))
 }
 
+# Combine all the organization state tables very inelegantly
+
+CombinedStatesX <- bind_rows(AG=AG,AGRI=AGRI,ARR=ARR,AVED=AVED,BCPSA=BCPSA,
+                            CFD=CFD,CSCD=CSCD,EAO=EAO,EBC=EBC,EDUC=EDUC,EM=EM,
+                            EMBC=EMBC,ENV=ENV,FIN=FIN,FLNR=FLNR,GCPE=GCPE,HLTH=HLTH,
+                            JTSTL=JTSTL,MIT=MIT,NGD=NGD,OMB=OMB,PGT=PGT,PO=PO,
+                            PSSG=PSSG,SBRT=SBRT,SDSI=SDSI,TICS=TICS,TRAN=TRAN, .id="source")
+
+# Save relevant dataframes as external rds files
+
 saveRDS(MainTable3, "Data/MainTable3.rds")
 saveRDS(CountOutputTable1, "Data/CountOutputTable1.rds")
 saveRDS(long_MT3, "Data/long_MT3.rds")
